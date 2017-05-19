@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProfile name="dev">
+        <!--scope="context"会将变量赋加日志中-->
+        <!--<springProperty scope="context" name="filePath" defaultValue="target/log" source="log.filePath.value"/>-->
+        <springProperty scope="local" name="filePath" defaultValue="target/log" source="log.filePath.value"/>
+    </springProfile>
+    <springProfile name="!dev">
+        <!--scope="context"会将变量赋加日志中-->
+        <!--<springProperty scope="context" name="filePath" defaultValue="log" source="log.filePath.value"/>-->
+        <springProperty scope="local" name="filePath" defaultValue="log" source="log.filePath.value"/>
+    </springProfile>
+    <appender name="LOGSTASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"appname":"myWebservice"}</customFields>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${filePath}/logstash-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="LOGSTASH"/>
+    </root>
+    <!--定向配置-->
+    <logger name="springboot.elk.logback.web" level="DEBUG" />
+</configuration>
