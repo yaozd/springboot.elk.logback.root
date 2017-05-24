@@ -2,6 +2,9 @@
 <!DOCTYPE configuration>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <conversionRule conversionWord="IpAddressConvert" converterClass="springboot.elk.logback.web.logbackExt.convert.IpAddressConvert" />
+    <conversionRule conversionWord="ThreadUUIDConvert" converterClass="springboot.elk.logback.web.logbackExt.convert.ThreadUUIDConvert" />
+    <conversionRule conversionWord="IncrementIdConvert" converterClass="springboot.elk.logback.web.logbackExt.convert.IncrementIdConvert" />
     <springProfile name="dev">
         <!--scope="context"会将变量赋加日志中-->
         <!--<springProperty scope="context" name="filePath" defaultValue="target/log" source="log.filePath.value"/>-->
@@ -14,7 +17,9 @@
     </springProfile>
     <appender name="LOGSTASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"myWebservice"}</customFields>
+            <provider class="net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider">
+                <pattern>{"#IpAddress":"%IpAddressConvert","#ThreadUUID":"%ThreadUUIDConvert","#IncrementId":"%IncrementIdConvert","tags": ["springboot.elk.logback.web"]}</pattern>
+            </provider>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${filePath}/logstash-%d{yyyy-MM-dd}.log</fileNamePattern>
