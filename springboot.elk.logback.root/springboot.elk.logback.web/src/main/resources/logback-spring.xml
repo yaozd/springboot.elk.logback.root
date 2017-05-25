@@ -21,14 +21,14 @@
         <destination>127.0.0.1:4560</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <provider class="net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider">
-                <pattern>{"IpAddress":"%IpAddressConvert","ThreadUUID":"%ThreadUUIDConvert","IncrementId":"%IncrementIdConvert","tags": ["springboot.elk.logback.web"]}</pattern>
+                <pattern>{"IpAddress":"%IpAddressConvert","ThreadUUID":"%ThreadUUIDConvert","IncrementId":"%IncrementIdConvert","tags": ["springboot_elk_logback_web"]}</pattern>
             </provider>
         </encoder>
     </appender>
     <appender name="LOGSTASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <provider class="net.logstash.logback.composite.loggingevent.LoggingEventPatternJsonProvider">
-                <pattern>{"IpAddress":"%IpAddressConvert","ThreadUUID":"%ThreadUUIDConvert","IncrementId":"%IncrementIdConvert","tags": ["springboot.elk.logback.web"]}</pattern>
+                <pattern>{"IpAddress":"%IpAddressConvert","ThreadUUID":"%ThreadUUIDConvert","IncrementId":"%IncrementIdConvert","tags": ["springboot_elk_logback_web"]}</pattern>
             </provider>
         </encoder>
         <file>${filePath}/logstash.log</file>
